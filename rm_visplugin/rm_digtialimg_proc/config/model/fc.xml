@@ -1,0 +1,308 @@
+<?xml version="1.0" ?>
+<net name="fc" version="10">
+	<layers>
+		<layer id="0" name="classifier.output.weight" type="Const" version="opset1">
+			<data offset="0" size="3024" shape="9,84" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.output.weight">
+					<dim>9</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="1" name="classifier.f2.weight" type="Const" version="opset1">
+			<data offset="3024" size="86016" shape="84,256" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.f2.weight">
+					<dim>84</dim>
+					<dim>256</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="2" name="classifier.f1.weight" type="Const" version="opset1">
+			<data offset="89040" size="573440" shape="256,560" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.f1.weight">
+					<dim>256</dim>
+					<dim>560</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="3" name="input" type="Parameter" version="opset1">
+			<data shape="1,1,20,28" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="input">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>20</dim>
+					<dim>28</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="4" name="Constant_0" type="Const" version="opset1">
+			<data offset="662480" size="16" shape="2" element_type="i64"/>
+			<output>
+				<port id="0" precision="I64" names="7">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="5" name="Reshape_1" type="Reshape" version="opset1">
+			<data special_zero="true"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>20</dim>
+					<dim>28</dim>
+				</port>
+				<port id="1">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="8">
+					<dim>1</dim>
+					<dim>560</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="6" name="Gemm_2/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>560</dim>
+				</port>
+				<port id="1">
+					<dim>256</dim>
+					<dim>560</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="7" name="classifier.f1.bias" type="Const" version="opset1">
+			<data offset="662496" size="1024" shape="1,256" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.f1.bias">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="8" name="Gemm_2" type="Add" version="opset1">
+			<data auto_broadcast="numpy"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+				<port id="1">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="9">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="9" name="Relu_3" type="ReLU" version="opset1">
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="10">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="10" name="Gemm_4/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>256</dim>
+				</port>
+				<port id="1">
+					<dim>84</dim>
+					<dim>256</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="11" name="classifier.f2.bias" type="Const" version="opset1">
+			<data offset="663520" size="336" shape="1,84" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.f2.bias">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="12" name="Gemm_4" type="Add" version="opset1">
+			<data auto_broadcast="numpy"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+				<port id="1">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="11">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="13" name="Relu_5" type="ReLU" version="opset1">
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="12">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="14" name="Gemm_6/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+				<port id="1">
+					<dim>9</dim>
+					<dim>84</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>9</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="15" name="classifier.output.bias" type="Const" version="opset1">
+			<data offset="663856" size="36" shape="1,9" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.output.bias">
+					<dim>1</dim>
+					<dim>9</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="16" name="output" type="Add" version="opset1">
+			<data auto_broadcast="numpy"/>
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>9</dim>
+				</port>
+				<port id="1">
+					<dim>1</dim>
+					<dim>9</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="output">
+					<dim>1</dim>
+					<dim>9</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="17" name="output/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0">
+					<dim>1</dim>
+					<dim>9</dim>
+				</port>
+			</input>
+		</layer>
+	</layers>
+	<edges>
+		<edge from-layer="3" from-port="0" to-layer="5" to-port="0"/>
+		<edge from-layer="4" from-port="0" to-layer="5" to-port="1"/>
+		<edge from-layer="5" from-port="2" to-layer="6" to-port="0"/>
+		<edge from-layer="2" from-port="0" to-layer="6" to-port="1"/>
+		<edge from-layer="6" from-port="2" to-layer="8" to-port="0"/>
+		<edge from-layer="7" from-port="0" to-layer="8" to-port="1"/>
+		<edge from-layer="8" from-port="2" to-layer="9" to-port="0"/>
+		<edge from-layer="9" from-port="1" to-layer="10" to-port="0"/>
+		<edge from-layer="1" from-port="0" to-layer="10" to-port="1"/>
+		<edge from-layer="10" from-port="2" to-layer="12" to-port="0"/>
+		<edge from-layer="11" from-port="0" to-layer="12" to-port="1"/>
+		<edge from-layer="12" from-port="2" to-layer="13" to-port="0"/>
+		<edge from-layer="13" from-port="1" to-layer="14" to-port="0"/>
+		<edge from-layer="0" from-port="0" to-layer="14" to-port="1"/>
+		<edge from-layer="14" from-port="2" to-layer="16" to-port="0"/>
+		<edge from-layer="15" from-port="0" to-layer="16" to-port="1"/>
+		<edge from-layer="16" from-port="2" to-layer="17" to-port="0"/>
+	</edges>
+	<meta_data>
+		<MO_version value="2021.4.2-3974-e2a469a3450-releases/2021/4"/>
+		<cli_parameters>
+			<caffe_parser_path value="DIR"/>
+			<data_type value="float"/>
+			<disable_nhwc_to_nchw value="False"/>
+			<disable_omitting_optional value="False"/>
+			<disable_resnet_optimization value="False"/>
+			<disable_weights_compression value="False"/>
+			<enable_concat_optimization value="False"/>
+			<enable_flattening_nested_params value="False"/>
+			<enable_ssd_gluoncv value="False"/>
+			<extensions value="DIR"/>
+			<framework value="onnx"/>
+			<freeze_placeholder_with_value value="{}"/>
+			<generate_deprecated_IR_V7 value="False"/>
+			<input_model value="DIR/fc.onnx"/>
+			<input_model_is_text value="False"/>
+			<k value="DIR/CustomLayersMapping.xml"/>
+			<keep_shape_ops value="True"/>
+			<legacy_ir_generation value="False"/>
+			<legacy_mxnet_model value="False"/>
+			<log_level value="ERROR"/>
+			<mean_scale_values value="{}"/>
+			<mean_values value="()"/>
+			<model_name value="fc"/>
+			<output_dir value="DIR"/>
+			<placeholder_data_types value="{}"/>
+			<progress value="False"/>
+			<remove_memory value="False"/>
+			<remove_output_softmax value="False"/>
+			<reverse_input_channels value="False"/>
+			<save_params_from_nd value="False"/>
+			<scale_values value="()"/>
+			<silent value="False"/>
+			<static_shape value="False"/>
+			<stream_output value="False"/>
+			<transform value=""/>
+			<unset unset_cli_parameters="batch, counts, disable_fusing, disable_gfusing, finegrain_fusing, input, input_checkpoint, input_meta_graph, input_proto, input_shape, input_symbol, mean_file, mean_file_offsets, move_to_preprocess, nd_prefix_name, output, placeholder_shapes, pretrained_model_name, saved_model_dir, saved_model_tags, scale, tensorboard_logdir, tensorflow_custom_layer_libraries, tensorflow_custom_operations_config_update, tensorflow_object_detection_api_pipeline_config, tensorflow_use_custom_operations_config, transformations_config"/>
+		</cli_parameters>
+	</meta_data>
+</net>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<mapping>
+	<map>
+		<framework name="digitalInput" output_port_id="digitalInput" />
+		<IR name="digitalInput" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Clip_2" output_port_id="onnx::Flatten_13" />
+		<IR name="Clip_2" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Flatten_3/Reshape" output_port_id="onnx::Gemm_14" />
+		<IR name="Flatten_3/Reshape" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="classifier.0.weight" output_port_id="classifier.0.weight" />
+		<IR name="classifier.0.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="classifier.0.bias" output_port_id="classifier.0.bias" />
+		<IR name="classifier.0.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gemm_4" output_port_id="input" />
+		<IR name="Gemm_4" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Clip_7" output_port_id="onnx::Gemm_18" />
+		<IR name="Clip_7" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="classifier.2.weight" output_port_id="classifier.2.weight" />
+		<IR name="classifier.2.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="classifier.2.bias" output_port_id="classifier.2.bias" />
+		<IR name="classifier.2.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gemm_8" output_port_id="input.4" />
+		<IR name="Gemm_8" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Clip_11" output_port_id="onnx::Gemm_22" />
+		<IR name="Clip_11" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="classifier.4.weight" output_port_id="classifier.4.weight" />
+		<IR name="classifier.4.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="classifier.4.bias" output_port_id="classifier.4.bias" />
+		<IR name="classifier.4.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="digitalOutput" output_port_id="digitalOutput" />
+		<IR name="digitalOutput" output_port_id="2" />
+	</map>
+</mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rm_visplugin</name>
+  <version>0.0.0</version>
+  <description>Meta package that contains plugins of rm_vision</description>
+
+  <maintainer email="heyicheng@todo.todo">heyicheng</maintainer>
+
+  <license>todo</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>rm_digtialimg_proc</exec_depend>
+  <exec_depend>rm_opvn_proc</exec_depend>
+  <exec_depend>rm_trt_proc</exec_depend>
+  <exec_depend>rm_pose_solver</exec_depend>
+  <exec_depend>rm_receiver</exec_depend>
+  <exec_depend>pose_solver</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>

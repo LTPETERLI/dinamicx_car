@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm">
+
+    <xacro:macro name="arm" params="connected_to simulation">
+        <xacro:property name="joint1_upper_limit" value="0.46"/>
+        <xacro:property name="joint1_lower_limit" value="-0.05"/>
+        <xacro:property name="joint2_upper_limit" value="0.304"/>
+        <xacro:property name="joint2_lower_limit" value="-0.055050"/>
+        <xacro:property name="joint3_upper_limit" value="0.289"/>
+        <xacro:property name="joint3_lower_limit" value="-0.296"/>
+        <xacro:property name="joint4_upper_limit" value="0.0456"/>
+        <xacro:property name="joint4_lower_limit" value="-1.80"/>
+        <xacro:property name="joint5_upper_limit" value="1.61"/>
+        <xacro:property name="joint5_lower_limit" value="-1.60"/>
+        <xacro:property name="joint6_upper_limit" value="3.8"/>
+        <xacro:property name="joint6_lower_limit" value="-1.66"/>
+        <xacro:property name="joint1_velocity" value="1.84"/>
+        <xacro:property name="joint1_effort" value="136"/>
+        <xacro:property name="joint2_velocity" value="2.77"/>
+        <xacro:property name="joint2_effort" value="90.25"/>
+        <xacro:property name="joint3_velocity" value="1.84"/>
+        <xacro:property name="joint3_effort" value="136"/>
+        <xacro:property name="joint4_velocity" value="3.02"/>
+        <xacro:property name="joint4_effort" value="11.95"/>
+        <xacro:property name="rm3508_velocity" value="8.03"/>
+        <xacro:property name="rm3508_effort" value="4.5"/>
+        <xacro:property name="P50_velocity" value="3.09"/>
+        <xacro:property name="P50_effort" value="11.72"/>
+        <xacro:property name="joint7_upper_limit" value="1.62"/>
+        <xacro:property name="joint7_lower_limit" value="0."/>
+        <!--  link  -->
+        <link name="link1">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link1.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="1.191644"/>
+                <origin xyz="0. 0. 0."/>
+                <inertia ixx="5.559e-1" ixy="-7.326e-3" ixz="2.084e-2" iyy="3.889e-1" iyz="4.594e-3" izz="5.871e-1"/>
+            </inertial>
+            <collision>
+                <origin xyz="0 0.25 0.028" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.334 0.15 0.056"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0 -0.25 0.028" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.334 0.15 0.056"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0.217 0.182 0.04" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.07 0.097 0.1"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0.217 -0.182 0.04" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.07 0.097 0.1"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="link2">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link2.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="2.997641"/>
+                <origin xyz="0. 0. 0."/>
+                <inertia ixx="1.438e-1" ixy="-7.086e-3" ixz="-5.178e-3" iyy="9.638e-2" iyz="-2.120e-3" izz="2.365e-1"/>
+            </inertial>
+            <collision>
+                <origin xyz="0.0075 -0.215 0.0125" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.565 0.07 0.025"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0.0075 0.215 0.0125" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.565 0.07 0.025"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0.249 0. 0.01" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.046 0.43 0.026"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="link3">
+            <visual>
+                <origin xyz="0 0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link3.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="1.144584"/>
+                <origin xyz="0. -0. 0."/>
+                <inertia ixx="3.307e-2" ixy="-1.813e-3" ixz="2.5936e-5" iyy="8.059e-4" iyz="1.760e-4" izz="3.340e-2"/>
+            </inertial>
+            <collision>
+                <origin xyz="0. 0. 0." rpy="0. 0. 0."/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link3.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="link4">
+            <visual>
+                <origin xyz="0 0 0." rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link4.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.07901"/>
+                <origin xyz="0. 0. 0. "/>
+                <inertia ixx="1.2e-4" ixy="1.90146e-7" ixz="-1.654e-6" iyy="3.797e-5" iyz="-8.45708e-7" izz="1.13e-4"/>
+            </inertial>
+            <collision>
+                <origin xyz="0. 0.0045 -0.0165" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.04 0.257 0.07"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="link5">
+            <visual>
+                <origin xyz="0 0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link5.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.178017"/>
+                <origin xyz="0. 0. 0."/>
+                <inertia ixx="2.936e-3" ixy="2.366e-4" ixz="-5.559e-4" iyy="2.88e-3" iyz="6.198e-4" izz="6.447e-4"/>
+            </inertial>
+            <collision>
+                <origin xyz="-0.025 0.0 -0.1275" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.032 0.032 0.18"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="link6">
+            <visual>
+                <origin xyz="0 0 0." rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link6.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.242891"/>
+                <origin xyz="0. 0. 0."/>
+                <inertia ixx="1.225e-2" ixy="3.486e-4" ixz="-1.804e-3" iyy="1.224e-2" iyz="2.204e-3" izz="1.033e-3"/>
+            </inertial>
+            <collision>
+                <origin xyz="0. 0. 0." rpy="0. 0. 0."/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link6.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0.07 0. -0.01" rpy="0. 0. 0."/>
+                <geometry>
+                    <box size="0.03 0.03 0.015"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="link7">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link7.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.124977"/>
+                <origin xyz="0. 1.32489 -0.00403"/>
+                <inertia ixx="3.004e-3" ixy="-0.045e-9" ixz="-2.0566e-8" iyy="9.642549e-6" iyz="1.05812e-7"
+                         izz="3.003e-3"/>
+            </inertial>
+            <collision>
+                <origin xyz="0. 0. 0." rpy="0. 0. 0."/>
+                <geometry>
+                    <mesh filename="package://rm_description/meshes/engineer/link7.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+
+
+        <link name="tools_link"/>
+
+        <joint name="joint1" type="prismatic">
+            <parent link="${connected_to}"/>
+            <child link="link1"/>
+            <origin xyz="0 0 0.21" rpy="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${joint1_lower_limit}" upper="${joint1_upper_limit}" velocity="${joint1_velocity}"
+                   effort="${joint1_effort}"/>
+            <dynamics damping="0.0" friction="0.1"/>
+        </joint>
+
+
+        <joint name="joint2" type="prismatic">
+            <parent link="link1"/>
+            <child link="link2"/>
+            <origin xyz="0 0. 0.056" rpy="0 0 0"/>
+            <axis xyz="1 0 0"/>
+            <limit lower="${joint2_lower_limit}" upper="${joint2_upper_limit}" velocity="${joint2_velocity}"
+                   effort="${joint2_effort}"/>
+            <dynamics damping="0.0" friction="0.1"/>
+            <safety_controller k_position="300." k_velocity="6"
+                               soft_lower_limit="${joint2_lower_limit+0.01}"
+                               soft_upper_limit="${joint2_upper_limit-0.01}"/>
+        </joint>
+
+        <joint name="joint3" type="prismatic">
+            <parent link="link2"/>
+            <child link="link3"/>
+            <origin xyz="0.2595 0. 0.046" rpy="0 0 0"/>
+            <axis xyz="0 1 0"/>
+            <limit lower="${joint3_lower_limit}" upper="${joint3_upper_limit}" velocity="${joint3_velocity}"
+                    effort="${joint3_effort}"/>
+            <dynamics damping="0.0" friction="0.1"/>
+        </joint>
+
+        <joint name="joint4" type="revolute">
+            <parent link="link3"/>
+            <child link="link4"/>
+            <origin xyz="0. 0. 0.073" rpy="0 0 0"/>
+            <axis xyz="0 1 0"/>
+            <limit lower="${joint4_lower_limit}" upper="${joint4_upper_limit}" velocity="3.02" effort="11.95"/> <limit lower="${joint4_lower_limit}" upper="${joint4_upper_limit}" velocity="${joint4_velocity}"
+                                                                                                                                    effort="${joint4_effort}"/>
+            <safety_controller k_position="300." k_velocity="6"
+                               soft_lower_limit="${joint4_lower_limit+0.01}"
+                               soft_upper_limit="${joint4_upper_limit-0.01}"/>
+            <dynamics damping="0.0" friction="0.1"/>
+        </joint>
+
+        <joint name="joint5" type="revolute">
+            <parent link="link4"/>
+            <child link="link5"/>
+            <origin xyz="0.07 0. 0." rpy="0 0 0"/>
+            <axis xyz="1 0 0"/>
+            <limit lower="${joint5_lower_limit}" upper="${joint5_upper_limit}" velocity="${rm3508_velocity}"
+                  effort="${rm3508_effort}"/>
+            <safety_controller k_position="80." k_velocity="1.2"
+                               soft_lower_limit="${joint5_lower_limit+0.001}"
+                               soft_upper_limit="${joint5_upper_limit-0.001}"/>
+            <dynamics damping="0.0" friction="0.1"/>
+        </joint>
+
+        <joint name="joint6" type="revolute">
+            <parent link="link5"/>
+            <child link="link6"/>
+            <origin xyz="-0.07 0 -0.2165" rpy="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="${joint6_lower_limit}" upper="${joint6_upper_limit}" velocity="${rm3508_velocity}"
+                  effort="${rm3508_effort}"/>
+            <safety_controller k_position="28." k_velocity="0.8"
+                               soft_lower_limit="${joint6_lower_limit+0.001}"
+                               soft_upper_limit="${joint6_upper_limit-0.2}"/>
+            <dynamics damping="0.0" friction="0.1"/>
+        </joint>
+
+        <joint name="joint7" type="revolute">
+            <origin xyz="0.037 -0.0425 -0.028" rpy="0 0 0"/>
+            <limit effort="1.56" velocity="19" lower="${joint7_lower_limit}" upper="${joint7_upper_limit}"/>
+            <parent link="link6"/>
+            <child link="link7"/>
+            <axis xyz="0 1 0"/>
+        </joint>
+
+        <joint name="tools_joint" type="fixed">
+            <parent link="link7"/>
+            <child link="tools_link"/>
+            <origin xyz="0.165 0.04 -0.05" rpy="0 -1.57 0"/>
+        </joint>
+
+        <xacro:unless value="${simulation}">
+            <link name="mimic_link1">
+                <inertial>
+                    <mass value="0.1"/>
+                    <origin xyz="0. 0. 0."/>
+                    <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+                </inertial>
+                <visual>
+                    <origin xyz="0. 0.237 -0.0175" rpy="0 0 0"/>
+                    <geometry>
+                        <box size="0.01 0.01 0.1"/>
+                    </geometry>
+                </visual>
+                <collision>
+                    <origin xyz="0. 0 0." rpy="0 0 0"/>
+                    <geometry>
+                        <box size="0. 0. 0."/>
+                    </geometry>
+                </collision>
+            </link>
+
+            <joint name="mimic_joint1" type="prismatic">
+                <parent link="${connected_to}"/>
+                <child link="mimic_link1"/>
+                <origin xyz="0 0 0.21" rpy="0 0 0"/>
+                <axis xyz="0 0 1"/>
+                <limit lower="${joint1_lower_limit}" upper="${joint1_upper_limit}" velocity="${joint1_velocity}"
+                       effort="${joint1_effort}"/>
+                <dynamics damping="0.0" friction="0.1"/>
+            </joint>
+        </xacro:unless>
+    </xacro:macro>
+</robot>

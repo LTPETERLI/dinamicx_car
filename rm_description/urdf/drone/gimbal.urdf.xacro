@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="threshold" value="0.1"/>
+    <xacro:property name="pitch_lower_limit" value="-0.6"/>
+    <xacro:property name="pitch_upper_limit" value="0.457"/>
+    <xacro:property name="yaw_lower_limit" value="-0.627"/>
+    <xacro:property name="yaw_upper_limit" value="0.627"/>
+
+    <link name="yaw">
+        <inertial>
+            <mass value="0.168461"/>
+            <origin xyz="-0.037502 -0.000675 -0.035887"/>
+            <inertia ixx="1.551e-04" ixy="-3.314938e-06" ixz="2.8187371e-05" iyy="2.522e-04"
+                     iyz="1.2955249e-05" izz="1.81e-04"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/drone/yaw.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/drone/yaw.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="yaw_joint" type="revolute">
+        <origin xyz="0 0 -0.107"
+                rpy="0 0 0"/>
+        <dynamics damping="0.0" friction="0.1"/>
+        <limit effort="1.2" velocity="31" lower="-1e10" upper="1e10"/>
+        <safety_controller k_position="100" k_velocity="0.1"
+                           soft_lower_limit="${yaw_lower_limit+threshold}"
+                           soft_upper_limit="${yaw_upper_limit-threshold}"/>
+        <parent link="base_link"/>
+        <child link="yaw"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="pitch">
+        <inertial>
+            <mass value="1.078301"/>
+            <origin xyz="0.034813 0.00001 -0.038381"/>
+            <inertia ixx="2.447e-03" ixy="-4.27382e-07" ixz="1.2e-03" iyy="5.554e-03"
+                     iyz="1.641965e-06" izz="4.573e-03"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/drone/pitch.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/drone/pitch.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="pitch_joint" type="revolute">
+        <origin xyz="0 0 -0.09" rpy="0 0 0"/>
+        <dynamics damping="0.0" friction="0.1"/>
+        <limit effort="3.0" velocity="86" lower="${pitch_lower_limit}" upper="${pitch_upper_limit}"/>
+        <safety_controller k_position="100" k_velocity="0.1"
+                           soft_lower_limit="${pitch_lower_limit+threshold}"
+                           soft_upper_limit="${pitch_upper_limit-threshold}"/>
+        <parent link="yaw"/>
+        <child link="pitch"/>
+        <axis xyz="0 1 0 "/>
+    </joint>
+
+</robot>

@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="nodelet" type="nodelet" args="manager"
+          name="nodelet_manager" output="screen"/>
+
+    <node pkg="nodelet" type="nodelet" args="load lidar_repost/LivoxRepost nodelet_manager"
+          name="nodelet_loader" output="screen">
+        <param name="frame_id" value="livox_frame"/>
+    </node>
+</launch>

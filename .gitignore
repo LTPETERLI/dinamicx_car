@@ -1,0 +1,23 @@
+# ROS 构建产物
+build/
+devel/
+logs/
+install/
+
+# IDE / 编辑器
+.vscode/
+.idea/
+cmake-build-debug/
+*.swp
+
+# 编译中间件
+*.o
+*.a
+*.so
+*.pyc
+__pycache__/
+
+# 数据文件(体积大, 不入库)
+*.bag
+*.pcd
+*.db3

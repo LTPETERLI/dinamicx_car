@@ -1,0 +1,141 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="reversal">
+    <link name="pitch_behind_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/engineer/pitch_behind.stl"
+                      scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.124977"/>
+            <origin xyz="0. 1.32489 -0.00403"/>
+            <inertia ixx="3.004e-3" ixy="-0.045e-9" ixz="-2.0566e-8" iyy="9.642549e-6" iyz="1.05812e-7"
+                     izz="3.003e-3"/>
+        </inertial>
+    </link>
+
+    <link name="pitch_front_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/engineer/pitch_front.stl"
+                      scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.124977"/>
+            <origin xyz="0. 1.32489 -0.00403"/>
+            <inertia ixx="3.004e-3" ixy="-0.045e-9" ixz="-2.0566e-8" iyy="9.642549e-6" iyz="1.05812e-7"
+                     izz="3.003e-3"/>
+        </inertial>
+    </link>
+
+    <link name="roll_left_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/engineer/roll_left.stl"
+                      scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.155395"/>
+            <origin xyz="-0.002548 -0.001141 -1.5623"/>
+            <inertia ixx="5.377e-3" ixy="-1.0076e-5" ixz="-1.385968e-6" iyy="5.395e-3" iyz="-6.20542e-7"
+                     izz="3.7128e-5"/>
+        </inertial>
+    </link>
+
+    <link name="roll_right_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/engineer/roll_right.stl"
+                      scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.155395"/>
+            <origin xyz="-0.002548 -0.001141 -1.5623"/>
+            <inertia ixx="5.377e-3" ixy="-1.0076e-5" ixz="-1.385968e-6" iyy="5.395e-3" iyz="-6.20542e-7"
+                     izz="3.7128e-5"/>
+        </inertial>
+    </link>
+
+    <joint name="pitch_behind_joint" type="prismatic">
+        <origin xyz="0. 0.143 0.26" rpy="0 0 0"/>
+        <limit effort="1.0" velocity="30" lower="-1e10" upper="1e10"/>
+        <parent link="base_link"/>
+        <child link="pitch_behind_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <joint name="pitch_front_joint" type="prismatic">
+        <origin xyz="0. 0.143 0.48" rpy="0 0 0"/>
+        <limit effort="1.0" velocity="30" lower="-1e10" upper="1e10"/>
+        <parent link="base_link"/>
+        <child link="pitch_front_link"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <joint name="roll_left_joint" type="prismatic">
+        <origin xyz="0.14 0.115 0.6" rpy="0 0 0"/>
+        <limit effort="1.0" velocity="30" lower="-1e10" upper="1e10"/>
+        <parent link="base_link"/>
+        <child link="roll_left_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="roll_right_joint" type="prismatic">
+        <origin xyz="0.14 -0.115 0.6" rpy="0 0 0"/>
+        <limit effort="1.0" velocity="30" lower="-1e10" upper="1e10"/>
+        <parent link="base_link"/>
+        <child link="roll_right_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <transmission name="trans_pitch_behind_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="pitch_behind_joint_motor">
+            <mechanicalReduction>-1</mechanicalReduction>
+        </actuator>
+        <joint name="pitch_behind_joint">
+            <offset>0.</offset>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="trans_pitch_front_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="pitch_front_joint_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="pitch_front_joint">
+            <offset>0.</offset>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="trans_roll_left_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="roll_left_joint_motor">
+            <mechanicalReduction>-1</mechanicalReduction>
+        </actuator>
+        <joint name="roll_left_joint">
+            <offset>0.</offset>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="trans_roll_right_joint">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="roll_right_joint_motor">
+            <mechanicalReduction>-1</mechanicalReduction>
+        </actuator>
+        <joint name="roll_right_joint">
+            <offset>0.</offset>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+</robot>

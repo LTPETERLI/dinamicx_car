@@ -1,0 +1,8 @@
+Log file created at: 2024/01/18 13:30:17
+Running on machine: nepgear-T6AD
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0118 13:30:17.092213 56288 odom.cpp:147] finish descent gradient0.136164
+I0118 13:30:17.092535 56288 odom.cpp:148] iteration time: 9
+I0118 13:30:36.665606 56288 odom.cpp:147] finish descent gradient0.184162
+I0118 13:30:36.665634 56288 odom.cpp:148] iteration time: 2
+I0118 13:31:07.329272 56280 odom.cpp:147] finish descent gradient0.161178

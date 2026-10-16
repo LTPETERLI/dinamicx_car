@@ -1,0 +1,10 @@
+<library path="lib/libwindmill_dev_image_converter">
+    <class
+            name="rm_windmill_vision/ImageConverterNodelet"
+            type="rm_windmill_vision::ImageConverterNodelet"
+            base_class_type="nodelet::Nodelet">
+        <description>
+            This is an image converter nodelet.
+        </description>
+    </class>
+</library>

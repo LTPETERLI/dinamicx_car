@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<mapping>
+	<map>
+		<framework name="digitalInput" output_port_id="digitalInput" />
+		<IR name="digitalInput" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="conv.0.weight" output_port_id="conv.0.weight" />
+		<IR name="conv.0.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Conv_0" output_port_id="onnx::Sigmoid_13" />
+		<IR name="Conv_0" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Sigmoid_1" output_port_id="onnx::MaxPool_14" />
+		<IR name="Sigmoid_1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="MaxPool_2" output_port_id="input" />
+		<IR name="MaxPool_2" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="conv.3.weight" output_port_id="conv.3.weight" />
+		<IR name="conv.3.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Conv_3" output_port_id="onnx::Sigmoid_16" />
+		<IR name="Conv_3" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Sigmoid_4" output_port_id="onnx::MaxPool_17" />
+		<IR name="Sigmoid_4" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="MaxPool_5" output_port_id="input.4" />
+		<IR name="MaxPool_5" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="conv.6.weight" output_port_id="conv.6.weight" />
+		<IR name="conv.6.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Conv_6" output_port_id="onnx::Sigmoid_19" />
+		<IR name="Conv_6" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Sigmoid_7" output_port_id="onnx::MaxPool_20" />
+		<IR name="Sigmoid_7" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="MaxPool_8" output_port_id="onnx::Reshape_21" />
+		<IR name="MaxPool_8" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Shape_9" output_port_id="onnx::Gather_22" />
+		<IR name="Shape_9" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Constant_10" output_port_id="onnx::Gather_23" />
+		<IR name="Constant_10" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gather_1143" output_port_id="onnx::Unsqueeze_24" />
+		<IR name="Gather_1143" output_port_id="3" />
+	</map>
+	<map>
+		<framework name="Unsqueeze_12/Unsqueeze" output_port_id="onnx::Concat_26" />
+		<IR name="Unsqueeze_12/Unsqueeze" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="onnx::Concat_35" output_port_id="onnx::Concat_35" />
+		<IR name="onnx::Concat_35" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Concat_13" output_port_id="onnx::Reshape_28" />
+		<IR name="Concat_13" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Reshape_14" output_port_id="onnx::Gemm_29" />
+		<IR name="Reshape_14" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc.0.weight" output_port_id="fc.0.weight" />
+		<IR name="fc.0.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="fc.0.bias" output_port_id="fc.0.bias" />
+		<IR name="fc.0.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gemm_15" output_port_id="onnx::Sigmoid_30" />
+		<IR name="Gemm_15" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Sigmoid_16" output_port_id="onnx::Gemm_31" />
+		<IR name="Sigmoid_16" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fc.2.weight" output_port_id="fc.2.weight" />
+		<IR name="fc.2.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="fc.2.bias" output_port_id="fc.2.bias" />
+		<IR name="fc.2.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gemm_17" output_port_id="onnx::Sigmoid_32" />
+		<IR name="Gemm_17" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Sigmoid_18" output_port_id="onnx::Gemm_33" />
+		<IR name="Sigmoid_18" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fc.4.weight" output_port_id="fc.4.weight" />
+		<IR name="fc.4.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="fc.4.bias" output_port_id="fc.4.bias" />
+		<IR name="fc.4.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="digitalOutput" output_port_id="digitalOutput" />
+		<IR name="digitalOutput" output_port_id="2" />
+	</map>
+</mapping>

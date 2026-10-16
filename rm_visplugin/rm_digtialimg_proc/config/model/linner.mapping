@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<mapping>
+	<map>
+		<framework name="input" output_port_id="input" />
+		<IR name="input" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Flatten_0/Reshape" output_port_id="11" />
+		<IR name="Flatten_0/Reshape" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="classifier.0.weight" output_port_id="classifier.0.weight" />
+		<IR name="classifier.0.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="classifier.0.bias" output_port_id="classifier.0.bias" />
+		<IR name="classifier.0.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gemm_1" output_port_id="12" />
+		<IR name="Gemm_1" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Clip_4" output_port_id="15" />
+		<IR name="Clip_4" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="classifier.2.weight" output_port_id="classifier.2.weight" />
+		<IR name="classifier.2.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="classifier.2.bias" output_port_id="classifier.2.bias" />
+		<IR name="classifier.2.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Gemm_5" output_port_id="16" />
+		<IR name="Gemm_5" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Clip_8" output_port_id="19" />
+		<IR name="Clip_8" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="classifier.4.weight" output_port_id="classifier.4.weight" />
+		<IR name="classifier.4.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="classifier.4.bias" output_port_id="classifier.4.bias" />
+		<IR name="classifier.4.bias" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="output" output_port_id="output" />
+		<IR name="output" output_port_id="2" />
+	</map>
+</mapping>

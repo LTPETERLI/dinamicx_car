@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="robot_test_lkd" type="robot_test_lkd" name="robot_test_lkd" output="screen">
+    </node>
+</launch>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<mapping>
+	<map>
+		<framework name="digitalInput" output_port_id="digitalInput" />
+		<IR name="digitalInput" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="seq.0.weight" output_port_id="seq.0.weight" />
+		<IR name="seq.0.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Conv_6" output_port_id="input" />
+		<IR name="Conv_6" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Relu_7" output_port_id="input.8" />
+		<IR name="Relu_7" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="BatchNormalization_8/mean/Fused_Mul__copy" output_port_id="seq.3.weight" />
+		<IR name="BatchNormalization_8/mean/Fused_Mul__copy" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Conv_9" output_port_id="input.12" />
+		<IR name="Conv_9" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Relu_10" output_port_id="input.20" />
+		<IR name="Relu_10" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="BatchNormalization_11/mean/Fused_Mul__copy" output_port_id="seq.6.weight" />
+		<IR name="BatchNormalization_11/mean/Fused_Mul__copy" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="Conv_12" output_port_id="input.24" />
+		<IR name="Conv_12" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Relu_13" output_port_id="input.32" />
+		<IR name="Relu_13" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="BatchNormalization_14/mean/Fused_Mul__copy" output_port_id="seq.9.weight" />
+		<IR name="BatchNormalization_14/mean/Fused_Mul__copy" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="GlobalAveragePool_16/reduce" output_port_id="input.40" />
+		<IR name="GlobalAveragePool_16/reduce" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="seq.11.weight" output_port_id="seq.11.weight" />
+		<IR name="seq.11.weight" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="digitalOutput" output_port_id="digitalOutput" />
+		<IR name="digitalOutput" output_port_id="2" />
+	</map>
+</mapping>

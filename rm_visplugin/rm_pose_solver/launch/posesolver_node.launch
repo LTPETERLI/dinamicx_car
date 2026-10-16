@@ -1,0 +1,5 @@
+<launch>
+<node pkg="rm_pose_solver" type="pose_solver_node" name="pose_solver_node" output="screen" >
+  <rosparam file="$(find rm_pose_solver)/config/pose_solver_config.yaml" command="load" />
+</node>
+</launch>

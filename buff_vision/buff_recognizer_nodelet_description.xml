@@ -1,0 +1,10 @@
+<library path="lib/libbuff_vision_recognizer">
+    <class
+            name="rm_buff_vision/BuffRecognizerNodelet"
+            type="rm_buff_vision::BuffRecognizerNodelet"
+            base_class_type="nodelet::Nodelet">
+        <description>
+            This is an windmill recognizer nodelet.
+        </description>
+    </class>
+</library>

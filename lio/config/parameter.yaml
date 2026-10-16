@@ -1,0 +1,4 @@
+max_min_icp_distance: 1.0
+max_iterations: 10
+leaf_size: 0.05
+factor: 1.0

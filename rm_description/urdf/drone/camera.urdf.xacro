@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- https://upload.wikimedia.org/wikipedia/commons/5/52/Wheelbase_and_Track.png -->
+
+    <link name="locate_camera">
+        <inertial>
+            <mass value="0.036099"/>
+            <origin xyz="0.213008 -2.479e-8 -0.082416"/>
+            <inertia ixx="4.1735261e-05" ixy="0.8e-11" ixz="3.382748e-05" iyy="4.9371412e-5"
+                     iyz="-0.13e-10" izz="8.5897204e-5"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/drone/camera.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://rm_description/meshes/drone/camera.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="locate_camera_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="locate_camera"/>
+    </joint>
+
+</robot>

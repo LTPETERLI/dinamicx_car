@@ -1,0 +1,87 @@
+<!--
+
+  Copyright (c)
+
+  The Verifiable & Control-Theoretic Robotics (VECTR) Lab
+  University of California, Los Angeles
+
+  Authors: Kenny J. Chen, Ryan Nemiroff, Brett T. Lopez
+  Contact: {kennyjchen, ryguyn, btlopez}@ucla.edu
+
+-->
+
+<launch>
+<!--    <include file="$(find lidar_repost)/launch/repost_nodelet.launch"/>-->
+    <include file="$(find livox_ros_driver2)/launch_ROS1/msg_MID360.launch">
+        <arg name="rviz_enable" value="false"/>
+        <arg name="publish_freq" value="10"/>
+        <arg name="msg_frame_id" value="livox_frame"/>
+        <!-- <arg name="xfer_format" value="1"/> -->
+    </include>
+
+    <include file="$(find lidar_repost)/launch/repost_nodelet.launch"/>
+    <!-- <include file="$(find robot_test_npg)/launch/mapping_mid360.launch"/> -->
+
+    <arg name="pointcloud_topic" default="~livox2dlio"/>
+    <arg name="livox_topic" default="/livox/lidar"/>
+<!--    <include file="$(find lidar_repost)/launch/repost_nodelet.launch"/>-->
+<!--    <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 map odom 100"/>-->
+<!--    <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster2" args="0 0 0 0 0 0 map robot/odom 100"/>-->
+<!--    <include file="$(find rm_navigation)/launch/linefit_ground_segmentation/linefit_ground_segmentation.launch"/>-->
+
+
+    <arg name="robot_namespace" default="robot"/>
+    <arg name="rviz" default="false"/>
+    <!-- <arg name="map_file" default="$(find rm_navigation)/map/map.yaml"/> -->
+<!--    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>-->
+
+    <arg name="imu_topic" default="/livox/imu"/>
+    <arg name="~dlio/odom/preprocessing/cropBoxFilter/size" value="0.6"/>
+
+
+
+    <!-- DLIO Odometry Node -->
+    <node ns="$(arg robot_namespace)" name="dlio_odom" pkg="direct_lidar_inertial_odometry" type="dlio_odom_node" output="screen" clear_params="true">
+
+        <!-- Load parameters -->
+        <rosparam file="$(find robot_test_npg)/config/dlio.yaml" command="load"/>
+        <rosparam file="$(find robot_test_npg)/config/params.yaml" command="load"/>
+
+        <!-- Subscriptions -->
+        <remap from="~pointcloud" to="$(arg pointcloud_topic)"/>
+        <remap from="~imu" to="/livox/imu"/>
+        <remap from="~livox" to="$(arg livox_topic)"/>
+        <!-- Publications -->
+        <remap from="~odom"     to="dlio/odom_node/odom"/>
+        <remap from="~pose"     to="dlio/odom_node/pose"/>
+        <remap from="~path"     to="dlio/odom_node/path"/>
+        <remap from="~kf_pose"  to="dlio/odom_node/keyframes"/>
+        <remap from="~kf_cloud" to="dlio/odom_node/pointcloud/keyframe"/>
+        <remap from="~deskewed" to="dlio/odom_node/pointcloud/deskewed"/>
+
+    </node>
+
+    <!-- DLIO Mapping Node -->
+    <node ns="$(arg robot_namespace)" name="dlio_map" pkg="direct_lidar_inertial_odometry" type="dlio_map_node" output="screen" clear_params="true" >
+t
+        <!-- Load parameters -->
+        <rosparam file="$(find direct_lidar_inertial_odometry)/cfg/dlio.yaml" command="load"/>
+        <rosparam file="$(find direct_lidar_inertial_odometry)/cfg/params.yaml" command="load"/>
+
+        <!-- Subscriptions -->
+        <remap from="~keyframes" to="dlio/odom_node/pointcloud/keyframe"/>
+
+        <!-- Publications -->
+        <remap from="~map" to="dlio/map_node/map"/>
+
+    </node>
+
+    <!-- RViz -->
+    <node pkg="rviz" type="rviz" name="dlio_rviz" args="-d $(find direct_lidar_inertial_odometry)/launch/dlio.rviz" if="$(arg rviz)"/>
+    <include file="$(find rm_navigation)/launch/navigation/move_base.launch">
+        <arg name="no_localization" value="true"/>
+    </include>
+
+
+
+</launch>

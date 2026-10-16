@@ -1,0 +1,13 @@
+base_global_planner: "global_planner/GlobalPlanner"
+base_local_planner: "pid_local_planner/PidPlanner"
+
+planner_frequency: 20
+
+controller_frequency: 100.0
+controller_patience: 2.0
+controller_max_retries: -1
+
+recovery_behaviour_enabled: true
+
+oscillation_timeout: 2.5
+oscillation_distance: 0.2

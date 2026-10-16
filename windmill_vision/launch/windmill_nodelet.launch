@@ -1,0 +1,51 @@
+<launch>
+
+    <arg name="use_emulator" default="false"/>
+    <group if="$(arg use_emulator)">
+        <arg name="loop_rate" default="20"/>
+        <arg name="video_path" default="/home/koonyu/videos/red_big.mp4"/>
+        <include file="$(find virtual_camera)/launch/virtual_camera.launch">
+            <arg name="loop_rate" value="$(arg loop_rate)"/>
+            <arg name="video_path" value="$(arg video_path)"/>
+        </include>
+    </group>
+
+    <arg name="num_worker_threads" default="8"/>
+    <arg name="object_distance" default="6000"/>
+    <arg name="windmill_color" default="blue"/>
+    <arg name="distance" default="0.7"/>
+    <arg name="big_armor_width" default="0.235"/>
+    <arg name="big_armor_height" default="0.127"/>
+    <arg name="binary_threshold" default="100"/>
+
+    <!-- nodelet manager -->
+    <arg name="manager_name" default="nodelet_manager"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen">
+        <param name="num_worker_threads" value="$(arg num_worker_threads)"/>
+    </node>
+
+    <!-- image converter -->
+    <node pkg="nodelet" type="nodelet" name="image_converter_nodelet"
+          args="load rm_windmill_vision/ImageConverterNodelet $(arg manager_name)">
+        <param name="windmill_color" value="$(arg windmill_color)"/>
+        <remap from="/galaxy_camera/image_raw" to="/hk_camera/image_raw"/>
+    </node>
+
+    <!-- windmill recognizer -->
+    <node pkg="nodelet" type="nodelet" name="windmill_recognizer_nodelet"
+          args="load rm_windmill_vision/WindmillRecognizerNodelet $(arg manager_name)">
+        <param name="object_distance" value="$(arg object_distance)"/>
+                <remap from="/galaxy_camera/image_raw" to="/hk_camera/image_raw"/>
+    </node>
+
+    <!-- windmill analyzer -->
+    <node pkg="nodelet" type="nodelet" name="windmill_analyzer_nodelet"
+          args="load rm_windmill_vision/WindmillAnalyzerNodelet $(arg manager_name)">
+        <param name="windmill_color" value="$(arg windmill_color)"/>
+        <param name="distance" value="$(arg distance)"/>
+        <param name="big_armor_width" value="$(arg big_armor_width)"/>
+        <param name="big_armor_height" value="$(arg big_armor_height)"/>
+        <param name="binary_threshold" value="$(arg binary_threshold)"/>
+    </node>
+
+</launch>

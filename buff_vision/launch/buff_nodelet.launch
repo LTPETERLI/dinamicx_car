@@ -1,0 +1,53 @@
+<launch>
+
+<!--     <arg name="use_emulator" default="false"/> -->
+<!--     <group if="$(arg use_emulator)"> -->
+<!--         <arg name="loop_rate" default="30"/> -->
+<!--         <arg name="video_path" default="/home/koonyu/videos/new_red.avi"/> -->
+<!--         <include file="$(find virtual_camera)/launch/virtual_camera.launch"> -->
+<!--             <arg name="loop_rate" value="$(arg loop_rate)"/> -->
+<!--             <arg name="video_path" value="$(arg video_path)"/> -->
+<!--         </include> -->
+<!--     </group> -->
+
+    <arg name="num_worker_threads" default="8"/>
+    <arg name="object_distance" default="6000"/>
+    <arg name="buff_color" default="red"/>
+    <arg name="distance" default="0.7"/>
+    <arg name="big_armor_width" default="0.235"/>
+    <arg name="big_armor_height" default="0.127"/>
+    <arg name="binary_threshold" default="100"/>
+
+    <!-- nodelet manager -->
+    <arg name="manager_name" default="vision_nodelet1"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen">
+        <param name="num_worker_threads" value="$(arg num_worker_threads)"/>
+    </node>
+
+    <!-- image converter -->
+    <node pkg="nodelet" type="nodelet" name="image_converter_nodelet"
+          args="load rm_buff_vision/ImageConverterNodelet $(arg manager_name)">
+          <rosparam file="$(find buff_vision)/config/ImageConverter.yaml" command="load" />
+          <remap from="/galaxy_camera/image_raw" to="/hk_camera/camera/image_raw"/>
+        <param name="buff_color" value="$(arg buff_color)"/>
+    </node>
+
+    <!-- buff recognizer -->
+        <node pkg="nodelet" type="nodelet" name="buff_recognizer_nodelet"
+              args="load rm_buff_vision/BuffRecognizerNodelet $(arg manager_name)">
+            <rosparam file="$(find buff_vision)/config/BuffRecognizer.yaml" command="load" />
+            <param name="object_distance" value="$(arg object_distance)"/>
+                    <remap from="/galaxy_camera/image_raw" to="/hk_camera/camera/image_raw"/>
+        </node>
+
+    <!-- pnp solver -->
+    <node pkg="nodelet" type="nodelet" name="pnp_solver_nodelet"
+          args="load rm_buff_vision/PnpSolverNodelet $(arg manager_name)">
+          <rosparam file="$(find buff_vision)/config/PnpSolver.yaml" command="load" />
+        <param name="distance" value="$(arg distance)"/>
+        <param name="buff_color" value="$(arg buff_color)"/>
+        <param name="big_armor_width" value="$(arg big_armor_width)"/>
+        <param name="big_armor_height" value="$(arg big_armor_height)"/>
+    </node>
+
+</launch>

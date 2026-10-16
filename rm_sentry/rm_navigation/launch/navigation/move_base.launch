@@ -1,0 +1,31 @@
+<launch>
+    <arg name="local_planner_type" default="$(env PLANNER_TYPE)" doc="local planner type [pid, teb]"/>
+    <!-- 调试用空地图；恢复比赛地图：改回 map/map.yaml，或启动时传 map_file:=$(find rm_navigation)/map/map.yaml -->
+    <arg name="map_file" default="$(find rm_navigation)/map/empty_map.yaml"/>
+    <arg name="no_localization" default="true"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+
+    <group if="$(arg no_localization)">
+        <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 map odom 100"/>
+    </group>
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam
+                file="$(find rm_navigation)/config/navigation/$(arg local_planner_type)/$(arg local_planner_type).yaml"
+                command="load"/>
+        <rosparam file="$(find rm_navigation)/config/navigation/$(arg local_planner_type)/move_base.yaml"
+                  command="load"/>
+        <rosparam file="$(find rm_navigation)/config/navigation/$(arg local_planner_type)/costmap_common.yaml"
+                  command="load"
+                  ns="global_costmap"/>
+        <rosparam file="$(find rm_navigation)/config/navigation/$(arg local_planner_type)/costmap_common.yaml"
+                  command="load"
+                  ns="local_costmap"/>
+        <rosparam file="$(find rm_navigation)/config/navigation/$(arg local_planner_type)/costmap_global.yaml"
+                  command="load"
+                  ns="global_costmap"/>
+        <rosparam file="$(find rm_navigation)/config/navigation/$(arg local_planner_type)/costmap_local.yaml"
+                  command="load"
+                  ns="local_costmap"/>
+    </node>
+</launch>

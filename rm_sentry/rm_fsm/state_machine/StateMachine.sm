@@ -1,0 +1,289 @@
+%class StateMachine
+%header rm_fsm/state_machine.h
+
+%include <rm_msgs/DbusData.h>
+%include <rm_msgs/GameRobotStatus.h>
+%include <rm_msgs/GameRobotHp.h>
+%include <rm_msgs/TrackData.h>
+%include <rm_msgs/ClientMapSendData.h>
+%import rm_msgs
+
+%declare #include <rm_msgs/DbusData.h>
+%declare #include <rm_msgs/GameRobotStatus.h>
+%declare #include <rm_msgs/GameRobotHp.h>
+%declare #include <rm_msgs/TrackData.h>
+%declare #include <rm_msgs/ClientMapSendData.h>
+%declare using namespace rm_msgs;
+
+%start StateMachineMap::Stop
+
+%map StateMachineMap
+%%
+
+// Syntax:
+//
+// State {
+//  TransitionEvent
+//      [guard]
+//      NextState
+//      {Action}
+// }
+
+Stop
+    Entry {
+    info("Stop state entered");
+    remoteControlTurnOff();
+    }
+{
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::DOWN ]
+        Idle
+        {
+        }
+}
+
+Idle
+    Entry {
+    info("Idle state entered");
+    controller_manager_.startMainControllers();
+    calibrate();
+    switchTarget();
+    }
+{
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::MID ]
+        Manual
+        {
+        }
+}
+
+Manual
+    Entry {
+    info("Manual state entered");
+    }
+{
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::DOWN ]
+        Idle
+        {
+        }
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::UP ]
+        Cruise
+        {
+            setEnterTime(ctxt.cruise_state_, ros::Time::now());
+            setAutoChassisMode();
+        }
+    dbusUpdate(data: const DbusData &)
+        nil
+        {
+            sendChassisCmd(ctxt.manual_state_);
+            sendGimbalCmd(ctxt.manual_state_);
+            sendShooterCmd(ctxt.manual_state_);
+        }
+}
+
+Cruise
+    Entry {
+            info("Cruise state entered");
+    }
+{
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::MID ]
+        Manual
+        {
+            cancelGoal(ctxt.cruise_state_);
+        }
+    trackUpdate(data: const rm_msgs::TrackData &)
+        [data.id != 0]
+        Combat
+        {
+            setEnterTime(ctxt.combat_state_, ros::Time::now());
+        }
+    robotHpUpdate(data: const rm_msgs::GameRobotHp &)
+        [ !context.getOwner().checkOutpostActive() ]
+        Defense
+        {
+        }
+    dbusUpdate(data: const DbusData &)
+        nil
+        {
+            sendChassisCmd(ctxt.cruise_state_);
+            sendGimbalCmd(ctxt.cruise_state_);
+            sendShooterCmd(ctxt.cruise_state_);
+        }
+    clientMapSendDataUpdate(data: const rm_msgs::ClientMapSendData &)
+        [ data.command_keyboard == rm_msgs::ClientMapSendData::KEY_O || data.command_keyboard == rm_msgs::ClientMapSendData::KEY_A]
+        Conduct
+        {
+        }
+
+}
+
+Defense
+    Entry {
+            info("Cruise state entered");
+            cancelGoal(ctxt.defense_state_);
+            setReached();
+    }
+{
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::MID ]
+        Manual
+        {
+            cancelGoal(ctxt.defense_state_);
+        }
+    trackUpdate(data: const rm_msgs::TrackData &)
+        [data.id != 0]
+        Combat
+        {
+        }
+    dbusUpdate(data: const DbusData &)
+        nil
+        {
+            sendChassisCmd(ctxt.defense_state_);
+            sendGimbalCmd(ctxt.defense_state_);
+            sendShooterCmd(ctxt.defense_state_);
+        }
+    clientMapSendDataUpdate(data: const rm_msgs::ClientMapSendData &)
+        [ data.command_keyboard == rm_msgs::ClientMapSendData::KEY_O || data.command_keyboard == rm_msgs::ClientMapSendData::KEY_A]
+        Conduct
+        {
+        }
+
+}
+
+Combat
+    Entry {
+            info("Combat state entered");
+            checkMoving();
+            setLimitVel(context.getOwner().safe_limit_vel_);
+    }
+    Exit {
+            info("Combat state exited");
+            setLimitVel(context.getOwner().normal_limit_vel_);
+    }
+{
+    trackUpdate(data: const rm_msgs::TrackData &)
+        [(data.id == 0 && ros::Time::now() - ctxt.combat_state_ -> entry_track_ > ros::Duration(ctxt.combat_state_->lost_duration_)) &&
+         context.getOwner().checkOutpostActive()  && (context.getOwner().subscriber_.client_map_send_data_.command_keyboard != rm_msgs::ClientMapSendData::KEY_O && context.getOwner().subscriber_.client_map_send_data_.command_keyboard != rm_msgs::ClientMapSendData::KEY_A) ]
+        Cruise
+        {
+        }
+    trackUpdate(data: const rm_msgs::TrackData &)
+        [(data.id == 0 && ros::Time::now() - ctxt.combat_state_ -> entry_track_ > ros::Duration(ctxt.combat_state_->lost_duration_)) &&
+        !context.getOwner().checkOutpostActive() &&  (context.getOwner().subscriber_.client_map_send_data_.command_keyboard != rm_msgs::ClientMapSendData::KEY_O && context.getOwner().subscriber_.client_map_send_data_.command_keyboard != rm_msgs::ClientMapSendData::KEY_A) ]
+        Defense
+        {
+        }
+    trackUpdate(data: const rm_msgs::TrackData &)
+        [ (data.id == 0 && ros::Time::now() - ctxt.combat_state_ -> entry_track_ > ros::Duration(ctxt.combat_state_->lost_duration_))&&
+        (context.getOwner().subscriber_.client_map_send_data_.command_keyboard == rm_msgs::ClientMapSendData::KEY_O || context.getOwner().subscriber_.client_map_send_data_.command_keyboard == rm_msgs::ClientMapSendData::KEY_A) ]
+        Conduct
+        {
+        }
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::MID ]
+        Manual
+        {
+            cancelGoal(ctxt.combat_state_);
+        }
+    dbusUpdate(data: const DbusData &)
+        nil
+        {
+            sendChassisCmd(ctxt.combat_state_);
+            sendGimbalCmd(ctxt.combat_state_);
+            sendShooterCmd(ctxt.combat_state_);
+        }
+}
+
+Conduct
+    Entry {
+            info("Conduct state entered");
+    }
+{
+    dbusUpdate(data: const DbusData &)
+        [ data.s_r == DbusData::MID ]
+        Manual
+        {
+           cancelGoal(ctxt.conduct_state_);
+        }
+    trackUpdate(data: const rm_msgs::TrackData &)
+        [data.id != 0]
+        Combat
+        {
+            setEnterTime(ctxt.combat_state_, ros::Time::now());
+        }
+    dbusUpdate(data: const DbusData &)
+        nil
+        {
+            sendChassisCmd(ctxt.conduct_state_);
+            sendGimbalCmd(ctxt.conduct_state_);
+            sendShooterCmd(ctxt.conduct_state_);
+        }
+    clientMapSendDataUpdate(data: const rm_msgs::ClientMapSendData &)
+        [ (data.command_keyboard == rm_msgs::ClientMapSendData::KEY_K || data.command_keyboard == rm_msgs::ClientMapSendData::KEY_L) && context.getOwner().checkOutpostActive() ]
+        Cruise
+        {
+        }
+    clientMapSendDataUpdate(data: const rm_msgs::ClientMapSendData &)
+        [ (data.command_keyboard == rm_msgs::ClientMapSendData::KEY_K || data.command_keyboard == rm_msgs::ClientMapSendData::KEY_L) && !context.getOwner().checkOutpostActive() ]
+        Defense
+        {
+        }
+}
+
+Default
+{
+    robotStatusUpdate(data: const rm_msgs::GameRobotStatus &)
+        [ (data.mains_power_chassis_output == 1 && ctxt.subscriber_.game_robot_status_.mains_power_chassis_output == 0) ||
+          (data.mains_power_gimbal_output == 1 && ctxt.subscriber_.game_robot_status_.mains_power_gimbal_output == 0) ]
+        nil
+        {
+            info("Chassis and gimbal power on");
+        }
+    robotStatusUpdate(data: const rm_msgs::GameRobotStatus &)
+        [ data.mains_power_shooter_output == 1 && ctxt.subscriber_.game_robot_status_.mains_power_shooter_output == 0 ]
+        nil
+        {
+            info("Shooter power on");
+        }
+    robotStatusUpdate(data: const rm_msgs::GameRobotStatus &)
+        nil
+        {
+        }
+    dbusUpdate(data: const DbusData &)
+        nil
+        {
+        }
+
+    checkRc()
+        [ ros::Time::now() - ctxt.subscriber_.dbus_.stamp > ros::Duration(0.3) ]
+        Stop
+        {
+            info("Remote controller timeout");
+        }
+    checkRc()
+        nil
+        {
+        }
+    trackUpdate(data: const rm_msgs::TrackData &)
+        nil
+        {
+        }
+    robotHpUpdate(data: const rm_msgs::GameRobotHp &)
+        nil
+        {
+        }
+    clientMapSendDataUpdate(data: const rm_msgs::ClientMapSendData &)
+        [ data.command_keyboard == rm_msgs::ClientMapSendData::KEY_N && ctxt.subscriber_.client_map_update_]
+        nil
+        {
+           setGyroState();
+        }
+    clientMapSendDataUpdate(data: const rm_msgs::ClientMapSendData &)
+        nil
+        {
+        }
+}
+%%

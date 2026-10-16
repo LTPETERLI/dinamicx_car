@@ -1,0 +1,17 @@
+<launch>
+    <arg name="tags_type" default="rm_tag" doc="Tags type [rm_tag, apriltag]"/>
+    <arg name="launch_prefix" default=""/>
+    <arg name="camera_frame" default="oak_rgb_camera_optical_frame"/>
+
+    <rosparam command="load" file="$(find rm_localization)/test/tags_distribute_test.yaml"/>
+
+    <node name="rm_localization" pkg="rm_localization" type="rm_localization">
+        <param name="camera_frame" type="str" value="$(arg camera_frame)"/>
+        <param name="tags_type" type="str" value="$(arg tags_type)"/>
+    </node>
+
+    <node name="tags_distribute" pkg="rm_localization" type="tags_distribute"/>
+
+    <node name="odom_restorer" pkg="rm_localization" type="odom_restorer"/>
+
+</launch>

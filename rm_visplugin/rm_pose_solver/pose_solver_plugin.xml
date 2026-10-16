@@ -1,0 +1,7 @@
+<library path="lib/libpose_solver_plugin">
+    <class type="rm_pose_solver::PnpPoseSolverPluginImpl" base_class_type="rm_pose_solver::PnpPoseSolverPluginInterface">
+        <description>This is a pose_solver plugin.</description>
+    </class>
+
+</library>
+

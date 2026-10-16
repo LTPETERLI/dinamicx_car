@@ -1,0 +1,4 @@
+Log file created at: 2024/01/17 20:14:54
+Running on machine: nepgear-T6AD
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0117 20:14:54.807708 20313 odom.cpp:119] time for parallel :0.0484251

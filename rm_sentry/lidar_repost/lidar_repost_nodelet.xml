@@ -1,0 +1,8 @@
+<library path="lib/liblidar_repost">
+    <class name="lidar_repost/LivoxRepost" type="lidar_repost::LivoxRepost"
+           base_class_type="nodelet::Nodelet">
+        <description>
+            Nodelet using for reposting lidar custom message.
+        </description>
+    </class>
+</library>

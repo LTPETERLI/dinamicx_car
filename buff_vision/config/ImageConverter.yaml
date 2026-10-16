@@ -1,0 +1,19 @@
+target_is_red: 1
+
+h_min4red: 78
+h_max4red: 99
+s_min4red: 43
+s_max4red: 255
+v_min4red: 43
+v_max4red: 255
+
+h_min4blue: 26
+h_max4blue: 34
+s_min4blue: 60
+s_max4blue: 255
+v_min4blue: 60
+v_max4blue: 255
+
+filter_size: 5
+filter_step: 1
+kernel_size: 3

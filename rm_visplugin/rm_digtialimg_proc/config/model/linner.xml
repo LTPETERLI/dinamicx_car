@@ -1,0 +1,312 @@
+<?xml version="1.0" ?>
+<net name="linner" version="10">
+	<layers>
+		<layer id="0" name="input" type="Parameter" version="opset1">
+			<data shape="1, 1, 28, 28" element_type="f32"/>
+			<output>
+				<port id="0" precision="FP32" names="input">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>28</dim>
+					<dim>28</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="1" name="Flatten_0/Reshape/shape" type="Const" version="opset1">
+			<data element_type="i64" shape="2" offset="0" size="16"/>
+			<output>
+				<port id="0" precision="I64">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="2" name="Flatten_0/Reshape" type="Reshape" version="opset1">
+			<data special_zero="true"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>28</dim>
+					<dim>28</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="11">
+					<dim>1</dim>
+					<dim>784</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="3" name="classifier.0.weight" type="Const" version="opset1">
+			<data element_type="f32" shape="120, 784" offset="16" size="376320"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.0.weight">
+					<dim>120</dim>
+					<dim>784</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="4" name="Gemm_1/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>784</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>120</dim>
+					<dim>784</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="5" name="classifier.0.bias" type="Const" version="opset1">
+			<data element_type="f32" shape="1, 120" offset="376336" size="480"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.0.bias">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="6" name="Gemm_1" type="Add" version="opset1">
+			<data auto_broadcast="numpy"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="12">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="7" name="Clip_4" type="Clamp" version="opset1">
+			<data min="0" max="6"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="15">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="8" name="classifier.2.weight" type="Const" version="opset1">
+			<data element_type="f32" shape="84, 120" offset="376816" size="40320"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.2.weight">
+					<dim>84</dim>
+					<dim>120</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="9" name="Gemm_5/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>120</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>84</dim>
+					<dim>120</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="10" name="classifier.2.bias" type="Const" version="opset1">
+			<data element_type="f32" shape="1, 84" offset="417136" size="336"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.2.bias">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="11" name="Gemm_5" type="Add" version="opset1">
+			<data auto_broadcast="numpy"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="16">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="12" name="Clip_8" type="Clamp" version="opset1">
+			<data min="0" max="6"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="19">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="13" name="classifier.4.weight" type="Const" version="opset1">
+			<data element_type="f32" shape="8, 84" offset="417472" size="2688"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.4.weight">
+					<dim>8</dim>
+					<dim>84</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="14" name="Gemm_9/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>84</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>8</dim>
+					<dim>84</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>8</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="15" name="classifier.4.bias" type="Const" version="opset1">
+			<data element_type="f32" shape="1, 8" offset="420160" size="32"/>
+			<output>
+				<port id="0" precision="FP32" names="classifier.4.bias">
+					<dim>1</dim>
+					<dim>8</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="16" name="output" type="Add" version="opset1">
+			<data auto_broadcast="numpy"/>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>8</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>8</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="output">
+					<dim>1</dim>
+					<dim>8</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="17" name="output/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>8</dim>
+				</port>
+			</input>
+		</layer>
+	</layers>
+	<edges>
+		<edge from-layer="0" from-port="0" to-layer="2" to-port="0"/>
+		<edge from-layer="1" from-port="0" to-layer="2" to-port="1"/>
+		<edge from-layer="2" from-port="2" to-layer="4" to-port="0"/>
+		<edge from-layer="3" from-port="0" to-layer="4" to-port="1"/>
+		<edge from-layer="4" from-port="2" to-layer="6" to-port="0"/>
+		<edge from-layer="5" from-port="0" to-layer="6" to-port="1"/>
+		<edge from-layer="6" from-port="2" to-layer="7" to-port="0"/>
+		<edge from-layer="7" from-port="1" to-layer="9" to-port="0"/>
+		<edge from-layer="8" from-port="0" to-layer="9" to-port="1"/>
+		<edge from-layer="9" from-port="2" to-layer="11" to-port="0"/>
+		<edge from-layer="10" from-port="0" to-layer="11" to-port="1"/>
+		<edge from-layer="11" from-port="2" to-layer="12" to-port="0"/>
+		<edge from-layer="12" from-port="1" to-layer="14" to-port="0"/>
+		<edge from-layer="13" from-port="0" to-layer="14" to-port="1"/>
+		<edge from-layer="14" from-port="2" to-layer="16" to-port="0"/>
+		<edge from-layer="15" from-port="0" to-layer="16" to-port="1"/>
+		<edge from-layer="16" from-port="2" to-layer="17" to-port="0"/>
+	</edges>
+	<meta_data>
+		<MO_version value="2021.4.2-3974-e2a469a3450-releases/2021/4"/>
+		<cli_parameters>
+			<caffe_parser_path value="DIR"/>
+			<data_type value="float"/>
+			<disable_nhwc_to_nchw value="False"/>
+			<disable_omitting_optional value="False"/>
+			<disable_resnet_optimization value="False"/>
+			<disable_weights_compression value="False"/>
+			<enable_concat_optimization value="False"/>
+			<enable_flattening_nested_params value="False"/>
+			<enable_ssd_gluoncv value="False"/>
+			<extensions value="DIR"/>
+			<framework value="onnx"/>
+			<freeze_placeholder_with_value value="{}"/>
+			<generate_deprecated_IR_V7 value="False"/>
+			<input_model value="DIR/linner.onnx"/>
+			<input_model_is_text value="False"/>
+			<input_shape value="[1,1,28,28]"/>
+			<k value="DIR/CustomLayersMapping.xml"/>
+			<keep_shape_ops value="True"/>
+			<legacy_ir_generation value="False"/>
+			<legacy_mxnet_model value="False"/>
+			<log_level value="ERROR"/>
+			<mean_scale_values value="{}"/>
+			<mean_values value="()"/>
+			<model_name value="linner"/>
+			<output_dir value="DIR"/>
+			<placeholder_data_types value="{}"/>
+			<placeholder_shapes value="[ 1  1 28 28]"/>
+			<progress value="False"/>
+			<remove_memory value="False"/>
+			<remove_output_softmax value="False"/>
+			<reverse_input_channels value="False"/>
+			<save_params_from_nd value="False"/>
+			<scale_values value="()"/>
+			<silent value="False"/>
+			<static_shape value="False"/>
+			<stream_output value="False"/>
+			<transform value=""/>
+			<unset unset_cli_parameters="batch, counts, disable_fusing, disable_gfusing, finegrain_fusing, input, input_checkpoint, input_meta_graph, input_proto, input_symbol, mean_file, mean_file_offsets, move_to_preprocess, nd_prefix_name, output, pretrained_model_name, saved_model_dir, saved_model_tags, scale, tensorboard_logdir, tensorflow_custom_layer_libraries, tensorflow_custom_operations_config_update, tensorflow_object_detection_api_pipeline_config, tensorflow_use_custom_operations_config, transformations_config"/>
+		</cli_parameters>
+	</meta_data>
+</net>

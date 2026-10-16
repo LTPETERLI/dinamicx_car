@@ -1,0 +1,10 @@
+<library path="lib/libbuff_vision_image_converter">
+    <class
+            name="rm_buff_vision/ImageConverterNodelet"
+            type="rm_buff_vision::ImageConverterNodelet"
+            base_class_type="nodelet::Nodelet">
+        <description>
+            This is an image converter nodelet.
+        </description>
+    </class>
+</library>

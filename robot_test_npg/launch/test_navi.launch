@@ -1,0 +1,26 @@
+<launch>
+    <include file="$(find livox_ros_driver2)/launch_ROS1/msg_MID360.launch">
+        <arg name="rviz_enable" value="false"/>
+        <arg name="publish_freq" value="10"/>
+        <arg name="msg_frame_id" value="livox_frame"/>
+    </include>
+
+    <include file="$(find lidar_repost)/launch/repost_nodelet.launch"/>
+    <include file="$(find robot_test_npg)/launch/mapping_mid360.launch"/>
+
+
+    <include file="$(find rm_navigation)/launch/linefit_ground_segmentation/linefit_ground_segmentation.launch"/>
+
+
+<!--关闭静态tf-->
+<!--        <include file="$(find rm_navigation)/launch/navigation/move_base.launch">-->
+<!--            <arg name="no_localization" value="false"/>-->
+<!--        </include>-->
+
+
+
+    <include file="$(find rm_navigation)/launch/navigation/pcl_filters.launch"/>
+
+<!--    <node pkg="robot_test_npg" type="tf_test" name="tf_test"/>-->
+</launch>
+

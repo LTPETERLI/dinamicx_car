@@ -1,0 +1,6 @@
+armor_width: 0.44
+armor_height: 0.4
+distance: 0.7
+bin_threshold: 100
+stddev_typ: 8.0
+cv_typ: 0.9

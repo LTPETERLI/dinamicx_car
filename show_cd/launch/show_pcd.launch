@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="show_cd" type="show_pcd" name="seeseemore" output="screen"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0.785399 0 /map /odom 100" />
+
+</launch>

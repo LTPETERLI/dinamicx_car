@@ -1,0 +1,6 @@
+Log file created at: 2024/01/18 14:18:35
+Running on machine: nepgear-T6AD
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0118 14:18:35.739715 59500 odom.cpp:145] finish descent gradient0.110765
+I0118 14:18:35.739907 59500 odom.cpp:146] iteration time: 4
+I0118 14:18:35.988513 59503 odom.cpp:44] kd_tree get size:1494

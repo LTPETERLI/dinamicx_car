@@ -1,0 +1,19 @@
+hammer_min_area: 8000
+hammer_max_area: 15000
+hammer_min_rect_ratio: 1.5
+hammer_max_rect_ratio: 2.5
+min_white_ratio: 0.45
+max_white_ratio: 0.7
+r_icon_min_length: 10
+r_icon_max_length: 200
+r_icon_min_area: 300
+r_icon_max_area: 900
+r_icon_min_rect_ratio: 0.8
+r_icon_max_rect_ratio: 1.2
+min_rc_distance: 130
+max_rc_distance: 250
+
+big_rect_size: 25
+small_rect_size: 5
+intensity: 10
+small_rect_move: 0.6

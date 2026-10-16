@@ -1,0 +1,6 @@
+image: ./test_rmuc.png
+resolution: 0.029 #0.1
+origin: [ -1.408, -6.069, 0.0 ]  #3.0 2.5
+negate: 0
+occupied_thresh: 0.50
+free_thresh: 0.196

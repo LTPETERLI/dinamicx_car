@@ -1,0 +1,10 @@
+<library path="lib/libbuff_vision_pnp_solver">
+    <class
+            name="rm_buff_vision/PnpSolverNodelet"
+            type="rm_buff_vision::PnpSolverNodelet"
+            base_class_type="nodelet::Nodelet">
+        <description>
+            This is a pnp solver nodelet.
+        </description>
+    </class>
+</library>

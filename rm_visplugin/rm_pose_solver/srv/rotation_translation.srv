@@ -1,0 +1,12 @@
+# translation
+float64 t_x
+float64 t_y
+float64 t_z
+
+# rotation__axis_with_angle_magnitude__degrees
+float64 r_x
+float64 r_y
+float64 r_z
+---
+
+string result

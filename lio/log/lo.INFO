@@ -1,0 +1,32 @@
+Log file created at: 2024/01/18 14:18:48
+Running on machine: nepgear-T6AD
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0118 14:18:48.699505 59669 odom.cpp:145] finish descent gradient0.203455
+I0118 14:18:48.699677 59669 odom.cpp:146] iteration time: 1
+I0118 14:18:48.897029 59669 odom.cpp:145] finish descent gradient0.23015
+I0118 14:18:48.897048 59669 odom.cpp:146] iteration time: 1
+I0118 14:18:49.002300 59669 odom.cpp:145] finish descent gradient0.264868
+I0118 14:18:49.002318 59669 odom.cpp:146] iteration time: 2
+I0118 14:18:49.230532 59667 odom.cpp:145] finish descent gradient0.182305
+I0118 14:18:49.230551 59667 odom.cpp:146] iteration time: 3
+I0118 14:18:49.320223 59659 odom.cpp:145] finish descent gradient0.245554
+I0118 14:18:49.320238 59659 odom.cpp:146] iteration time: 1
+I0118 14:18:49.505870 59666 odom.cpp:145] finish descent gradient0.36391
+I0118 14:18:49.505888 59666 odom.cpp:146] iteration time: 1
+I0118 14:18:49.622567 59658 odom.cpp:145] finish descent gradient0.202155
+I0118 14:18:49.622586 59658 odom.cpp:146] iteration time: 2
+I0118 14:18:49.714886 59664 odom.cpp:145] finish descent gradient0.264068
+I0118 14:18:49.714903 59664 odom.cpp:146] iteration time: 1
+I0118 14:18:49.817646 59656 odom.cpp:145] finish descent gradient0.29473
+I0118 14:18:49.817668 59656 odom.cpp:146] iteration time: 1
+I0118 14:18:50.109897 59661 odom.cpp:145] finish descent gradient0.366803
+I0118 14:18:50.109913 59661 odom.cpp:146] iteration time: 1
+I0118 14:18:50.212201 59668 odom.cpp:145] finish descent gradient0.484715
+I0118 14:18:50.212219 59668 odom.cpp:146] iteration time: 1
+I0118 14:18:50.309262 59654 odom.cpp:145] finish descent gradient0.548835
+I0118 14:18:50.309280 59654 odom.cpp:146] iteration time: 1
+I0118 14:18:50.413036 59665 odom.cpp:145] finish descent gradient0.41939
+I0118 14:18:50.413054 59665 odom.cpp:146] iteration time: 1
+I0118 14:18:51.017578 59665 odom.cpp:145] finish descent gradient0.249925
+I0118 14:18:51.017597 59665 odom.cpp:146] iteration time: 2
+I0118 14:18:51.287470 59654 odom.cpp:44] kd_tree get size:1482

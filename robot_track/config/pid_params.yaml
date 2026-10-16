@@ -1,0 +1,7 @@
+robot_track:
+  linear_x:
+    pid: { p: 1.0, i: 0.0, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
+  linear_y:
+    pid: { p: 1.0, i: 0.0, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
+  track:
+    robot_distance: 0.5

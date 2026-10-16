@@ -1,0 +1,33 @@
+GlobalPlanner:
+  allow_unknown: true
+  default_tolerance: 1.2
+  use_dijkstra: true
+  use_quadratic: true
+  use_grid_path: false
+  lethal_cost: 255
+  neutral_cost: 62
+  cost_factor: 0.7
+  publish_potential: true
+  visualize_potential: true
+
+PidPlanner:
+  # next point distance/turning angle
+  slide_window: 0.2
+
+  k_theta: 0.5
+  
+  # goal reached tolerance
+  position_tolerance: 0.1
+  orientation_tolerance: 0.1
+
+  # linear velocity
+  max_v: 1.0
+  min_v: 0.0
+
+  # pid controller params
+  linear_x:
+    pid: { p: 3.5, i: 0.5, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
+  linear_y:
+    pid: { p: 3.5, i: 0.5, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
+  angular_z:
+    pid: { p: 2.0, i: 0.5, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }

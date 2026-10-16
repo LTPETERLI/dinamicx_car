@@ -1,0 +1,173 @@
+rm_fsm:
+  robot_type: "sentry"
+  robot_hp: 600
+  outpost_risk_hp: 800
+  outpost_urgent_hp: 200
+  init_gyro_state: true
+  planner:
+    move_gyro_vel: 4.2
+    normal_limit_vel: 1.3
+    safe_limit_vel: 0.3
+  chassis:
+    topic: "/cmd_chassis"
+    accel_x:
+      - [ 50.0,99.0 ]
+    accel_y:
+      - [ 50.0,99.0 ]
+    accel_z:
+      - [ 50.0,99.0 ]
+    safety_power: 150
+    capacitor_threshold: 0.1
+    charge_power: 20
+    extra_power: 30
+    burst_power: 240
+    buffer_threshold: 10
+    power_gain: 0.85
+  vel:
+    topic: "/cmd_vel"
+    power_limit_topic: "/cmd_chassis"
+    max_linear_x:
+      - [ 150.0,3.14 ]
+    max_linear_y:
+      - [ 150.0,3.14 ]
+    max_angular_z:
+      - [ 150.0,6.7 ]
+    gyro_move_reduction: 0.3
+    gyro_rotate_reduction: 0.7
+  auto:
+    patrols:
+      # 空地图调试：两个目标点，均距起点 (0,0) 1.0m（< 2m）
+      first_point:
+        position: [
+          [ -1.0, 0.0, 0.0 ]
+        ]
+      defense_points:
+        position: [
+          [ -1.0, 0.0, 0.0 ],
+          [ 1.0, 0.0, 3.1416 ]
+        ]
+      combat_points:
+        position: [
+          [ -1.0, 0.0, 0.0 ],
+          [ 1.0, 0.0, 3.1416 ]
+        ]
+      escape_points:
+        position: [
+          [ -1.0, 0.0, 0.0 ],
+          [ 1.0, 0.0, 3.1416 ]
+        ]
+      # 被替换掉的比赛场地坐标（调试完照着改回来）:
+      # first_point:    [ 8.646, 0.994, 0.0 ]
+      # defense_points: [ -0.398, 0.092, 0.0 ], [ 0.529, 4.321, 0.0 ], [ 0.349, -4.146, 0.0 ]
+      # combat_points:  [ 8.646, 0.994, 0.0 ], [ 14.108, 0.744, 0.0 ]
+      # escape_points:  [ 0.529, 4.321, 0.0 ], [ -0.398, 0.092, 0.0 ], [ 0.349, -4.146, 0.0 ]
+    circle_tolerance: 0.2
+    standby_velocity: [ 0.25, 2.0 ] # A sint + B
+    durations: [ 20.0, 240.0, 15.0, 15.0, 1.5 ] # duration of planing , wait for game start, stay at fixed point.
+    if_gyro: false   # true = 只原地转小陀螺、永不去目标点；要在目标点间巡航必须 false
+    use_referee: false   # 空地图调试：不依赖裁判系统数据（比赛改回 true）
+    vel_coeff: 0.5
+    tuning_interval: 3.0
+    gyro_duration: 3.0
+    minimap_origin:
+      #RED
+      - [ 6.62,7.5,0.0 ]
+      #BLUE
+      - [ 21.38,7.5,3.14 ]
+    is_blue: true
+    lost_duration: 1.0
+    enable_moving_combat: false
+    debug_mode: true
+  union:
+    gimbal:
+      topic: "/controllers/gimbal_controller/command"
+      max_yaw_vel: 2.7
+      max_pitch_vel: 1.0
+      track_timeout: 0.5
+      target_cost_function:
+        k_pos: 1.0
+        k_vel: 1.0
+        k_hp: 1.0
+        k_freq: 1.0
+        timeout: 0.05
+    switcher:
+      barrel:
+        topic: "/controllers/barrel_controller/command"
+        joint: "barrel_joint"
+        id1_point: 0.45`
+        id2_point: 1.62
+        is_double_barrel: false
+        check_switch_threshold: 0.02
+        check_launch_threshold: 0.02
+        frequency_threshold: 17.0
+        ready_duration: 0.5
+        switching_duration: 0.5
+
+      shooter_ID1:
+        topic: "/controllers/shooter_controller/command"
+        gimbal_error_tolerance: 0.15
+        target_acceleration_tolerance: 99.0
+        accleration_moving_average_num: 10
+        speed_30m_per_speed: 28.5
+        wheel_speed_30: 756
+        heat_limit:
+          safe_speed_limit: 30
+          low_shoot_frequency: 20
+          high_shoot_frequency: 20
+          burst_shoot_frequency: 20
+          safe_shoot_frequency: 8
+          heat_coeff: 12.0
+          type: "ID1_17MM"
+      shooter_ID2:
+        topic: "/controllers/shooter_controller/command"
+        gimbal_error_tolerance: 0.15
+        target_acceleration_tolerance: 99.0
+        accleration_moving_average_num: 10
+        speed_30m_per_speed: 28.5
+        wheel_speed_30: 756
+        heat_limit:
+          safe_speed_limit: 30
+          low_shoot_frequency: 20
+          high_shoot_frequency: 20
+          burst_shoot_frequency: 20
+          safe_shoot_frequency: 8
+          heat_coeff: 12.0
+          type: "ID2_17MM"
+    auto: { pitch: [ -0.2, 0.25 ],  circle: 3 }
+  detection_switch:
+    fail_limit: 10
+    service_name: "/Processor/status_switch"
+  controllers_list:
+    state_controllers:
+      - controllers/joint_state_controller
+      - controllers/robot_state_controller
+    main_controllers:
+      - controllers/chassis_controller
+      - controllers/orientation_controller
+      - controllers/gimbal_controller
+      - controllers/shooter_controller
+      - controllers/barrel_controller
+    calibration_controllers:
+      - controllers/trigger_calibration_controller
+      - controllers/gimbal_calibration_controller
+      - controllers/barrel_calibration_controller
+  gimbal_calibration:
+    - start_controllers:
+        - controllers/gimbal_calibration_controller
+      stop_controllers:
+        - controllers/gimbal_controller
+      services_name:
+        - /controllers/gimbal_calibration_controller/is_calibrated
+  shooter_calibration:
+    - start_controllers:
+        - controllers/trigger_calibration_controller
+      stop_controllers:
+        - controllers/shooter_controller
+      services_name:
+        - /controllers/trigger_calibration_controller/is_calibrated
+    - start_controllers:
+        - controllers/barrel_calibration_controller
+      stop_controllers:
+        - controllers/barrel_controller
+      services_name:
+        - /controllers/barrel_calibration_controller/is_calibrated

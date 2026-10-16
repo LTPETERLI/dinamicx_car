@@ -1,0 +1,10 @@
+<library path="lib/libwindmill_dev_analyzer">
+    <class
+            name="rm_windmill_vision/WindmillAnalyzerNodelet"
+            type="rm_windmill_vision::WindmillAnalyzerNodelet"
+            base_class_type="nodelet::Nodelet">
+        <description>
+            This is an windmill analyzer nodelet.
+        </description>
+    </class>
+</library>

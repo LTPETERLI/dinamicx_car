@@ -1,0 +1,9 @@
+<launch>
+    <arg name="imu_trigger" default="$(env IMU_TRIGGER)" doc="Bool"/>
+
+   <include file="$(find rm_config)/launch/vision/camera.launch">
+        <arg name="imu_trigger" value="$(arg imu_trigger)"/>
+    </include>
+    <include file="$(find rm_config)/launch/vision/vision_loader.launch"/>>
+
+</launch>

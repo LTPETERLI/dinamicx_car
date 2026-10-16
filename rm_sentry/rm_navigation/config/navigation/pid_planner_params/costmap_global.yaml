@@ -1,0 +1,14 @@
+global_frame: map
+robot_base_frame: base_link
+update_frequency: 30.0
+publish_frequency: 10.0
+transform_tolerance: 0.1
+track_unknown_space: true
+resolution: 0.025
+width: 10
+height: 10
+
+plugins:
+  - { name: static,                  type: "costmap_2d::StaticLayer" }
+  - { name: obstacles_livox,           type: "costmap_2d::ObstacleLayer" }
+  - { name: inflation,                 type: "costmap_2d::InflationLayer" }

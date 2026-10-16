@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm">
+
+    <xacro:macro name="arm_transmission" params="simulation">
+
+        <!-- transmission -->
+        <transmission name="trans_joint1">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint1_motor">
+                <mechanicalReduction>-519.8</mechanicalReduction>
+            </actuator>
+            <joint name="joint1">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>0.45604</offset>
+            </joint>
+        </transmission>
+
+        <transmission name="trans_joint2">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint2_motor">
+                <mechanicalReduction>-346.54</mechanicalReduction>
+            </actuator>
+            <joint name="joint2">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>0.309266</offset>
+            </joint>
+        </transmission>
+
+        <transmission name="trans_joint3">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint3_motor">
+                <mechanicalReduction>-519.8</mechanicalReduction>
+            </actuator>
+            <joint name="joint3">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>-0.303076</offset>
+            </joint>
+        </transmission>
+
+        <transmission name="trans_joint4">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint4_motor">
+                <mechanicalReduction>-51</mechanicalReduction>
+            </actuator>
+            <joint name="joint4">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>-1.82298</offset>
+            </joint>
+        </transmission>
+
+        <transmission name="trans_joint5">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint5_motor">
+                <mechanicalReduction>19.2032</mechanicalReduction>
+            </actuator>
+            <joint name="joint5">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>1.608</offset>
+            </joint>
+        </transmission>
+
+        <transmission name="trans_joint6">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint6_motor">
+                <mechanicalReduction>-19.2032</mechanicalReduction>
+            </actuator>
+            <joint name="joint6">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>-1.6992</offset>
+            </joint>
+        </transmission>
+
+        <transmission name="trans_joint7">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="joint7_motor">
+                <mechanicalReduction>1.56</mechanicalReduction>
+            </actuator>
+            <joint name="joint7">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <offset>0.</offset>
+            </joint>
+        </transmission>
+
+        <xacro:unless value="${simulation}">
+            <transmission name="trans_mimic_joint1">
+                <type>transmission_interface/SimpleTransmission</type>
+                <actuator name="mimic_joint1_motor">
+                    <mechanicalReduction>519.8</mechanicalReduction>
+                </actuator>
+                <joint name="mimic_joint1">
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                    <offset>0.45604</offset>
+                </joint>
+            </transmission>
+
+        </xacro:unless>
+    </xacro:macro>
+
+</robot>

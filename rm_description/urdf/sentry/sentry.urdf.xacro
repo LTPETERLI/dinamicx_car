@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sentry">
+
+    <xacro:arg name="load_chassis" default="true"/>
+    <xacro:arg name="load_gimbal" default="true"/>
+    <xacro:arg name="load_shooter" default="true"/>
+    <xacro:arg name="camera_link" default="camera_link"/>
+    <xacro:arg name="camera_optical_frame" default="camera_optical_frame"/>
+    <xacro:arg name="use_simulation" default="true"/>
+    <xacro:arg name="roller_type" default="realistic"/>
+
+    <xacro:arg name="oakd_camera_name" default="oak"/>
+    <xacro:arg name="oakd_camera_model" default="OAK-D-PRO"/>
+    <xacro:arg name="base_frame" default="oakd_pro"/>
+    <xacro:arg name="parent_frame" default="yaw"/>
+    <xacro:arg name="cam_pos_x" default="0"/>
+    <xacro:arg name="cam_pos_y" default="0"/>
+    <xacro:arg name="cam_pos_z" default="0.301"/>
+    <xacro:arg name="cam_roll" default="0.0"/>
+    <xacro:arg name="cam_pitch" default="0.41"/>
+    <xacro:arg name="cam_yaw" default="0.0"/>
+
+    <xacro:if value="$(arg load_chassis)">
+        <xacro:include filename="$(find rm_description)/urdf/sentry/chassis.urdf.xacro"/>
+        <xacro:chassis roller_type="$(arg roller_type)"/>
+
+        <xacro:if value="$(arg load_gimbal)">
+            <xacro:include filename="$(find rm_description)/urdf/sentry/gimbal.urdf.xacro"/>
+            <xacro:include filename="$(find rm_description)/urdf/sentry/gimbal.transmission.urdf.xacro"/>
+
+            <xacro:include filename="$(find rm_description)/urdf/common/imu.urdf.xacro"/>
+            <xacro:include filename="$(find rm_description)/urdf/common/camera.urdf.xacro"/>
+            <xacro:include filename="$(find rm_description)/urdf/common/oakd_pro.urdf.xacro"/>
+            <xacro:include filename="$(find rm_description)/urdf/common/livox_mid360.urdf.xacro"/>
+
+            <xacro:camera_optical_frame xyz="0.06559775176285364 0.000187 0.08746327160978175"
+                                        rpy="-1.6306 0 -1.5957212"
+                                        frame_id="$(arg camera_optical_frame)"
+                                        parent="pitch"
+                                        camera_sim="false"/>
+            <xacro:IMU connected_to="pitch" imu_name="gimbal_imu"
+                       xyz="-0.00246956 0.00105199 0.07160856"
+                       rpy="0 0 -${pi/2}"/>
+            <xacro:livox_mid360 connected_to="yaw" simulation="$(arg use_simulation)" lidar_name="livox_frame"
+                                xyz="-0.00337 0.098 0.108" rpy="0 0.785 0"/>
+            <xacro:oak_pro simulation="$(arg use_simulation)" camera_name="$(arg oakd_camera_name)"
+                           parent="$(arg parent_frame)"
+                           camera_model="$(arg oakd_camera_model)" base_frame="$(arg base_frame)"
+                           cam_pos_x="$(arg cam_pos_x)" cam_pos_y="$(arg cam_pos_y)" cam_pos_z="$(arg cam_pos_z)"
+                           cam_roll="$(arg cam_roll)" cam_pitch="$(arg cam_pitch)" cam_yaw="$(arg cam_yaw)"/>
+
+            <xacro:if value="$(arg load_shooter)">
+                <xacro:include filename="$(find rm_description)/urdf/sentry/shooter.urdf.xacro"/>
+                <xacro:include filename="$(find rm_description)/urdf/sentry/shooter.transmission.urdf.xacro"/>
+            </xacro:if>
+        </xacro:if>
+    </xacro:if>
+
+    <xacro:if value="$(arg use_simulation)">
+        <gazebo>
+            <plugin name="rm_ros_control" filename="librm_robot_hw_sim.so">
+                <robotNamespace>/</robotNamespace>
+                <robotSimType>rm_gazebo/RmRobotHWSim</robotSimType>
+            </plugin>
+        </gazebo>
+    </xacro:if>
+
+</robot>
